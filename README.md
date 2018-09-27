@@ -1,10 +1,6 @@
 php-json-ld
 ===========
 
-[![Build Status][travis-ci-png]][travis-ci-site]
-[travis-ci-png]: https://travis-ci.org/digitalbazaar/php-json-ld.png?branch=master
-[travis-ci-site]: https://travis-ci.org/digitalbazaar/php-json-ld
-
 Introduction
 ------------
 
@@ -152,19 +148,12 @@ $compacted = jsonld_compact($foo, 'http://schema.org', array(
   'documentLoader' => 'cache_load'));
 ```
 
-Commercial Support
-------------------
-
-Commercial support for this library is available upon request from
-[Digital Bazaar][]: support@digitalbazaar.com
-
 Source
 ------
 
-The source code for the PHP implementation of the JSON-LD API
-is available at:
+The source code for the PHP implementation of the JSON-LD API is available at:
 
-http://github.com/digitalbazaar/php-json-ld
+https://git.friendi.ca/friendica/php-json-ld
 
 Tests
 -----
@@ -184,7 +173,6 @@ containing the tests:
     phpunit --group json-ld.org test.php -d {PATH_TO_JSON_LD_ORG/test-suite}
     phpunit --group normalization test.php -d {PATH_TO_NORMALIZATION/tests}
 
-[Digital Bazaar]: http://digitalbazaar.com/
 [JSON-LD]: http://json-ld.org/
 [Microdata]: http://www.w3.org/TR/microdata/
 [Microformats]: http://microformats.org/
