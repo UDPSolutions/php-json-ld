@@ -4293,7 +4293,7 @@ class JsonLdProcessor
 		sort($nquads);
 
 		// cache and return hashed quads
-		$hash = $bnodes->{$id}->hash = hash('sha256', (implode($nquads));
+		$hash = $bnodes->{$id}->hash = hash('sha256', implode($nquads));
 		return $hash;
 	}
 
