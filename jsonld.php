@@ -5,6 +5,7 @@
  * Version: 1.0.0
  *
  * @author Dave Longley
+ * @author Michael Vogel
  *
  * BSD 3-Clause License
  * Copyright (c) 2011-2014 Digital Bazaar, Inc.
@@ -4292,7 +4293,7 @@ class JsonLdProcessor
 		sort($nquads);
 
 		// cache and return hashed quads
-		$hash = $bnodes->{$id}->hash = sha1(implode($nquads));
+		$hash = $bnodes->{$id}->hash = hash('sha256', (implode($nquads));
 		return $hash;
 	}
 
@@ -4313,7 +4314,7 @@ class JsonLdProcessor
 	protected function _hashPaths($id, $bnodes, $namer, $path_namer)
 	{
 		// create SHA-1 digest
-		$md = hash_init('sha1');
+		$md = hash_init('sha256');
 
 		// group adjacent bnodes by hash, keep properties and references separate
 		$groups = new stdClass();
@@ -4342,7 +4343,7 @@ class JsonLdProcessor
 				}
 
 				// hash direction, property, and bnode name/hash
-				$group_md = hash_init('sha1');
+				$group_md = hash_init('sha256');
 				hash_update($group_md, $direction);
 				hash_update($group_md, $quad->predicate->value);
 				hash_update($group_md, $name);
