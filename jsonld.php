@@ -346,7 +346,7 @@ function jsonld_get_url($url)
 /**
  * The default implementation to retrieve JSON-LD at the given URL.
  *
- * @param string $url the URL to to retrieve.
+ * @param string $url The document URL or a local path
  *
  * @return stdClass the RemoteDocument object.
  */
@@ -388,7 +388,7 @@ function jsonld_default_document_loader($url)
 	}
 
 	$link_header = [];
-	foreach ($http_response_header as $header) {
+	foreach ($http_response_header ?? [] as $header) {
 		if (strpos($header, 'link') === 0) {
 			$value = explode(': ', $header);
 			if (count($value) > 1) {
