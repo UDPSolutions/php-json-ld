@@ -5775,6 +5775,12 @@ jsonld_register_rdf_parser(
  */
 class JsonLdException extends Exception
 {
+	/** @var mixed */
+	protected $type;
+	/** @var mixed|null */
+	protected $details;
+	/** @var mixed|null */
+	protected $cause;
 
 	public function __construct(
 	$msg, $type, $code = 'error', $details = null, $previous = null)
@@ -5812,6 +5818,14 @@ class JsonLdException extends Exception
  */
 class UniqueNamer
 {
+	/** @var string */
+	private $prefix;
+	/** @var int */
+	private $counter;
+	/** @var stdClass */
+	private $existing;
+	/** @var array */
+	private $order;
 
 	/**
 	 * Constructs a new UniqueNamer.
@@ -5882,6 +5896,12 @@ class UniqueNamer
  */
 class Permutator
 {
+	/** @var array */
+	protected $list;
+	/** @var bool */
+	protected $done;
+	/** @var stdClass */
+	protected $left;
 
 	/**
 	 * Constructs a new Permutator.
@@ -5970,6 +5990,13 @@ class Permutator
  */
 class ActiveContextCache
 {
+	/** @var array */
+	protected $order;
+	/** @var stdClass */
+	protected $cache;
+	/** @var int */
+	protected $size;
+
 	/**
 	 * Constructs a new ActiveContextCache.
 	 *
