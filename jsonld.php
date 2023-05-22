@@ -474,7 +474,7 @@ function jsonld_default_secure_document_loader($url)
 	$result = @file_get_contents($url, false, $context);
 	if ($result === false) {
 		throw new JsonLdException(
-		'Could not retrieve a JSON-LD document from the URL: ' + $url, 'jsonld.LoadDocumentError', 'loading document failed');
+		'Could not retrieve a JSON-LD document from the URL: ' . $url, 'jsonld.LoadDocumentError', 'loading document failed');
 	}
 
 	$link_header = [];
@@ -2468,7 +2468,7 @@ class JsonLdProcessor
 					foreach ($items as $item) {
 						if (self::_isValue($item) || self::_isList($item)) {
 							throw new JsonLdException(
-							'Invalid JSON-LD syntax; "@reverse" value must not be a ' +
+							'Invalid JSON-LD syntax; "@reverse" value must not be a ' .
 							'@value or an @list.', 'jsonld.SyntaxError', 'invalid reverse property value', ['value' => $expanded_value]);
 						}
 						self::addValue(
@@ -2548,7 +2548,7 @@ class JsonLdProcessor
 				foreach ($expanded_value as $item) {
 					if (self::_isValue($item) || self::_isList($item)) {
 						throw new JsonLdException(
-						'Invalid JSON-LD syntax; "@reverse" value must not be a ' +
+						'Invalid JSON-LD syntax; "@reverse" value must not be a ' .
 						'@value or an @list.', 'jsonld.SyntaxError', 'invalid reverse property value', ['value' => $expanded_value]);
 					}
 					self::addValue(
@@ -4906,7 +4906,7 @@ class JsonLdProcessor
 		if (property_exists($value, '@reverse')) {
 			if (property_exists($value, '@id')) {
 				throw new JsonLdException(
-				'Invalid JSON-LD syntax; a @reverse term definition must not ' +
+				'Invalid JSON-LD syntax; a @reverse term definition must not ' .
 				'contain @id.', 'jsonld.SyntaxError', 'invalid reverse property', ['context' => $local_ctx]);
 			}
 			$reverse = $value->{'@reverse'};
@@ -5024,7 +5024,7 @@ class JsonLdProcessor
 			if ($mapping->reverse && $container !== '@index' &&
 			$container !== '@set' && $container !== null) {
 				throw new JsonLdException(
-				'Invalid JSON-LD syntax; @context @container value for a @reverse ' +
+				'Invalid JSON-LD syntax; @context @container value for a @reverse ' .
 				'type definition must be @index or @set.', 'jsonld.SyntaxError', 'invalid reverse property', ['context' => $local_ctx]);
 			}
 
