@@ -43,7 +43,7 @@
  *
  * @param mixed $input the JSON-LD object to compact.
  * @param mixed $ctx the context to compact with.
- * @param assoc [$options] options to use:
+ * @param array $options options to use:
  *          [base] the base IRI to use.
  *          [graph] true to always output a top-level graph (default: false).
  *          [documentLoader(url)] the document loader.
@@ -60,7 +60,7 @@ function jsonld_compact($input, $ctx, $options = [])
  * Performs JSON-LD expansion.
  *
  * @param mixed $input the JSON-LD object to expand.
- * @param assoc[$options] the options to use:
+ * @param array $options the options to use:
  *          [base] the base IRI to use.
  *          [documentLoader(url)] the document loader.
  *
@@ -95,7 +95,7 @@ function jsonld_flatten($input, $ctx, $options = [])
  *
  * @param mixed $input the JSON-LD object to frame.
  * @param stdClass $frame the JSON-LD frame to use.
- * @param assoc [$options] the framing options.
+ * @param array $options the framing options.
  *          [base] the base IRI to use.
  *          [embed] default @embed flag (default: true).
  *          [explicit] default @explicit flag (default: false).
@@ -118,12 +118,12 @@ function jsonld_frame($input, $frame, $options = [])
  *
  * @param mixed $input the JSON-LD document to link.
  * @param mixed $ctx the JSON-LD context to apply or null.
- * @param assoc [$options] the options to use:
+ * @param array $options the options to use:
  *          [base] the base IRI to use.
  *          [expandContext] a context to expand with.
  *          [documentLoader(url)] the document loader.
  *
- * @return the linked JSON-LD output.
+ * @return stdClass the linked JSON-LD output.
  */
 function jsonld_link($input, $ctx, $options)
 {
@@ -143,7 +143,7 @@ function jsonld_link($input, $ctx, $options)
  * dataset unless the 'format' option is used.
  *
  * @param mixed $input the JSON-LD object to normalize.
- * @param assoc [$options] the options to use:
+ * @param array $options the options to use:
  *          [base] the base IRI to use.
  *          [intputFormat] the format if input is not JSON-LD:
  *            'application/nquads' for N-Quads.
@@ -164,7 +164,7 @@ function jsonld_normalize($input, $options = [])
  *
  * @param mixed $input a serialized string of RDF in a format specified
  *          by the format option or an RDF dataset to convert.
- * @param assoc [$options] the options to use:
+ * @param array $options the options to use:
  *          [format] the format if input not an array:
  *            'application/nquads' for N-Quads (default).
  *          [useRdfType] true to use rdf:type, false to use @type
@@ -184,7 +184,7 @@ function jsonld_from_rdf($input, $options = [])
  * Outputs the RDF dataset found in the given JSON-LD object.
  *
  * @param mixed $input the JSON-LD object.
- * @param assoc [$options] the options to use:
+ * @param array $options the options to use:
  *          [base] the base IRI to use.
  *          [format] the format to use to output a string:
  *            'application/nquads' for N-Quads.
@@ -209,7 +209,7 @@ function jsonld_to_rdf($input, $options = [])
  *          [JSON_PRETTY_PRINT] pretty print.
  * @param int $depth the maximum depth to use.
  *
- * @return the encoded JSON data.
+ * @return string|false the encoded JSON data.
  */
 function jsonld_encode($input, $options = 0, $depth = 512)
 {
@@ -251,7 +251,7 @@ function jsonld_decode($input)
  *
  * @param string $header the link header to parse.
  *
- * @return assoc the parsed result.
+ * @return array the parsed result.
  */
 function jsonld_parse_link_header($header)
 {
@@ -289,7 +289,7 @@ function jsonld_parse_link_header($header)
 /**
  * Relabels all blank nodes in the given JSON-LD input.
  *
- * @param mixed input the JSON-LD input.
+ * @param mixed $input the JSON-LD input.
  */
 function jsonld_relabel_blank_nodes($input)
 {
@@ -311,7 +311,7 @@ $jsonld_default_load_document = 'jsonld_default_document_loader';
 /**
  * Sets the default JSON-LD document loader.
  *
- * @param callable load_document(url) the document loader.
+ * @param callable $load_document(url) the document loader.
  */
 function jsonld_set_document_loader($load_document)
 {
@@ -324,7 +324,7 @@ function jsonld_set_document_loader($load_document)
  *
  * @param string $url the URL to retrieve.
  *
- * @return the JSON-LD.
+ * @return string the JSON-LD.
  */
 function jsonld_get_url($url)
 {
@@ -474,7 +474,7 @@ function jsonld_default_secure_document_loader($url)
 	$result = @file_get_contents($url, false, $context);
 	if ($result === false) {
 		throw new JsonLdException(
-		'Could not retrieve a JSON-LD document from the URL: ' + $url, 'jsonld.LoadDocumentError', 'loading document failed');
+		'Could not retrieve a JSON-LD document from the URL: ' . $url, 'jsonld.LoadDocumentError', 'loading document failed');
 	}
 
 	$link_header = [];
@@ -558,7 +558,7 @@ function jsonld_unregister_rdf_parser($content_type)
  *
  * @param string $url the URL to parse.
  *
- * @return assoc the parsed URL.
+ * @return array the parsed URL.
  */
 function jsonld_parse_url($url)
 {
@@ -861,7 +861,7 @@ class JsonLdProcessor
 	 *
 	 * @param mixed $input the JSON-LD object to compact.
 	 * @param mixed $ctx the context to compact with.
-	 * @param assoc $options the compaction options.
+	 * @param array $options the compaction options.
 	 *          [base] the base IRI to use.
 	 *          [compactArrays] true to compact arrays to single values when
 	 *            appropriate, false not to (default: true).
@@ -995,7 +995,7 @@ class JsonLdProcessor
 	 * Performs JSON-LD expansion.
 	 *
 	 * @param mixed $input the JSON-LD object to expand.
-	 * @param assoc $options the options to use:
+	 * @param array $options the options to use:
 	 *          [base] the base IRI to use.
 	 *          [expandContext] a context to expand with.
 	 *          [keepFreeFloatingNodes] true to keep free-floating nodes,
@@ -1095,8 +1095,8 @@ class JsonLdProcessor
 	 * Performs JSON-LD flattening.
 	 *
 	 * @param mixed $input the JSON-LD to flatten.
-	 * @param ctx the context to use to compact the flattened output, or null.
-	 * @param assoc $options the options to use:
+	 * @param mixed $ctx the context to use to compact the flattened output, or null.
+	 * @param array $options the options to use:
 	 *          [base] the base IRI to use.
 	 *          [expandContext] a context to expand with.
 	 *          [documentLoader(url)] the document loader.
@@ -1143,7 +1143,7 @@ class JsonLdProcessor
 	 *
 	 * @param mixed $input the JSON-LD object to frame.
 	 * @param stdClass $frame the JSON-LD frame to use.
-	 * @param $options the framing options.
+	 * @param array $options the framing options.
 	 *          [base] the base IRI to use.
 	 *          [expandContext] a context to expand with.
 	 *          [embed] default @embed flag: '@last', '@always', '@never', '@link'
@@ -1256,7 +1256,7 @@ class JsonLdProcessor
 	 * Performs JSON-LD normalization.
 	 *
 	 * @param mixed $input the JSON-LD object to normalize.
-	 * @param assoc $options the options to use:
+	 * @param array $options the options to use:
 	 *          [base] the base IRI to use.
 	 *          [expandContext] a context to expand with.
 	 *          [inputFormat] the format if input is not JSON-LD:
@@ -1304,7 +1304,7 @@ class JsonLdProcessor
 	 *
 	 * @param mixed $dataset a serialized string of RDF in a format specified
 	 *          by the format option or an RDF dataset to convert.
-	 * @param assoc $options the options to use:
+	 * @param array $options the options to use:
 	 *          [format] the format if input is a string:
 	 *            'application/nquads' for N-Quads (default).
 	 *          [useRdfType] true to use rdf:type, false to use @type
@@ -1353,7 +1353,7 @@ class JsonLdProcessor
 	 * Outputs the RDF dataset found in the given JSON-LD object.
 	 *
 	 * @param mixed $input the JSON-LD object.
-	 * @param assoc $options the options to use:
+	 * @param array $options the options to use:
 	 *          [base] the base IRI to use.
 	 *          [expandContext] a context to expand with.
 	 *          [format] the format to use to output a string:
@@ -1419,7 +1419,7 @@ class JsonLdProcessor
 	 *
 	 * @param stdClass $active_ctx the current active context.
 	 * @param mixed $local_ctx the local context to process.
-	 * @param assoc $options the options to use:
+	 * @param array $options the options to use:
 	 *          [documentLoader(url)] the document loader.
 	 *
 	 * @return stdClass the new active context.
@@ -1516,7 +1516,7 @@ class JsonLdProcessor
 	 * @param stdClass $subject the subject to add the value to.
 	 * @param string $property the property that relates the value to the subject.
 	 * @param mixed $value the value to add.
-	 * @param assoc [$options] the options to use:
+	 * @param array $options the options to use:
 	 *          [propertyIsArray] true if the property is always an array, false
 	 *            if not (default: false).
 	 *          [allowDuplicate] true to allow duplicates, false not to (uses a
@@ -1592,7 +1592,7 @@ class JsonLdProcessor
 	 * @param stdClass $subject the subject.
 	 * @param string $property the property that relates the value to the subject.
 	 * @param mixed $value the value to remove.
-	 * @param assoc [$options] the options to use:
+	 * @param array $options the options to use:
 	 *          [propertyIsArray] true if the property is always an array,
 	 *          false if not (default: false).
 	 */
@@ -1663,7 +1663,7 @@ class JsonLdProcessor
 	 *
 	 * @param stdClass $ctx the active context.
 	 * @param string $key the context key.
-	 * @param string [$type] the type of value to get (eg: '@id', '@type'), if not
+	 * @param string $type the type of value to get (eg: '@id', '@type'), if not
 	 *          specified gets the entire entry for a key, null if not found.
 	 *
 	 * @return mixed the value.
@@ -1993,7 +1993,7 @@ class JsonLdProcessor
 	 * Sets the value of a key for the given array if that property
 	 * has not already been set.
 	 *
-	 * @param &assoc $arr the object to update.
+	 * @param &array $arr the object to update.
 	 * @param string $key the key to update.
 	 * @param mixed $value the value to set.
 	 */
@@ -2005,8 +2005,8 @@ class JsonLdProcessor
 	/**
 	 * Sets default values for keys in the given array.
 	 *
-	 * @param &assoc $arr the object to update.
-	 * @param assoc $defaults the default keys and values.
+	 * @param &array $arr the object to update.
+	 * @param array $defaults the default keys and values.
 	 */
 	public static function setdefaults(&$arr, $defaults)
 	{
@@ -2023,7 +2023,7 @@ class JsonLdProcessor
 	 * @param mixed $active_property the compacted property with the element
 	 *          to compact, null for none.
 	 * @param mixed $element the element to compact.
-	 * @param assoc $options the compaction options.
+	 * @param array $options the compaction options.
 	 *
 	 * @return mixed the compacted value.
 	 */
@@ -2280,7 +2280,7 @@ class JsonLdProcessor
 	 * @param stdClass $active_ctx the active context to use.
 	 * @param mixed $active_property the property for the element, null for none.
 	 * @param mixed $element the element to expand.
-	 * @param assoc $options the expansion options.
+	 * @param array $options the expansion options.
 	 * @param bool $inside_list true if the property is a list, false if not.
 	 *
 	 * @return mixed the expanded value.
@@ -2468,7 +2468,7 @@ class JsonLdProcessor
 					foreach ($items as $item) {
 						if (self::_isValue($item) || self::_isList($item)) {
 							throw new JsonLdException(
-							'Invalid JSON-LD syntax; "@reverse" value must not be a ' +
+							'Invalid JSON-LD syntax; "@reverse" value must not be a ' .
 							'@value or an @list.', 'jsonld.SyntaxError', 'invalid reverse property value', ['value' => $expanded_value]);
 						}
 						self::addValue(
@@ -2548,7 +2548,7 @@ class JsonLdProcessor
 				foreach ($expanded_value as $item) {
 					if (self::_isValue($item) || self::_isList($item)) {
 						throw new JsonLdException(
-						'Invalid JSON-LD syntax; "@reverse" value must not be a ' +
+						'Invalid JSON-LD syntax; "@reverse" value must not be a ' .
 						'@value or an @list.', 'jsonld.SyntaxError', 'invalid reverse property value', ['value' => $expanded_value]);
 					}
 					self::addValue(
@@ -2709,7 +2709,7 @@ class JsonLdProcessor
 	 *
 	 * @param array $input the expanded JSON-LD to frame.
 	 * @param array $frame the expanded JSON-LD frame to use.
-	 * @param assoc $options the framing options.
+	 * @param array $options the framing options.
 	 *
 	 * @return array the framed output.
 	 */
@@ -2742,7 +2742,7 @@ class JsonLdProcessor
 	 * Performs normalization on the given RDF dataset.
 	 *
 	 * @param stdClass $dataset the RDF dataset to normalize.
-	 * @param assoc $options the normalization options.
+	 * @param array $options the normalization options.
 	 *
 	 * @return mixed the normalized output.
 	 */
@@ -2894,7 +2894,7 @@ class JsonLdProcessor
 	 * Converts an RDF dataset to JSON-LD.
 	 *
 	 * @param stdClass $dataset the RDF dataset.
-	 * @param assoc $options the RDF serialization options.
+	 * @param array $options the RDF serialization options.
 	 *
 	 * @return array the JSON-LD output.
 	 */
@@ -3073,7 +3073,7 @@ class JsonLdProcessor
 	 *
 	 * @param stdClass $active_ctx the current active context.
 	 * @param mixed $local_ctx the local context to process.
-	 * @param assoc $options the context processing options.
+	 * @param array $options the context processing options.
 	 *
 	 * @return stdClass the new active context.
 	 */
@@ -3342,7 +3342,7 @@ class JsonLdProcessor
 	 *
 	 * @param stdClass $graph the graph to create RDF triples for.
 	 * @param UniqueNamer $namer for assigning bnode names.
-	 * @param assoc $options the RDF serialization options.
+	 * @param array $options the RDF serialization options.
 	 *
 	 * @return array the array of RDF triples for the given graph.
 	 */
@@ -3926,7 +3926,7 @@ class JsonLdProcessor
 	 * a wildcard child frame will be created that uses the same flags that the
 	 * parent frame used.
 	 *
-	 * @param assoc flags the current framing flags.
+	 * @param array $flags the current framing flags.
 	 *
 	 * @return array the implicit frame.
 	 */
@@ -3943,8 +3943,8 @@ class JsonLdProcessor
 	 * Checks the current subject stack to see if embedding the given subject
 	 * would cause a circular reference.
 	 *
-	 * @param stdClass subject_to_embed the subject to embed.
-	 * @param assoc subject_stack the current stack of subjects.
+	 * @param stdClass $subject_to_embed the subject to embed.
+	 * @param array $subject_stack the current stack of subjects.
 	 *
 	 * @return bool true if a circular reference would be created, false if not.
 	 */
@@ -4008,7 +4008,7 @@ class JsonLdProcessor
 	 * @param stdClass $state the current framing state.
 	 * @param array $subjects the set of subjects to filter.
 	 * @param stdClass $frame the parsed frame.
-	 * @param assoc $flags the frame flags.
+	 * @param array $flags the frame flags.
 	 *
 	 * @return stdClass all of the matched subjects.
 	 */
@@ -4030,7 +4030,7 @@ class JsonLdProcessor
 	 *
 	 * @param stdClass $subject the subject to check.
 	 * @param stdClass $frame the frame to check.
-	 * @param assoc $flags the frame flags.
+	 * @param array $flags the frame flags.
 	 *
 	 * @return bool true if the subject matches, false if not.
 	 */
@@ -4163,7 +4163,7 @@ class JsonLdProcessor
 	 *
 	 * @param stdClass $ctx the active context used to compact the input.
 	 * @param mixed $input the framed, compacted output.
-	 * @param assoc $options the compaction options used.
+	 * @param array $options the compaction options used.
 	 *
 	 * @return mixed the resulting output.
 	 */
@@ -4241,7 +4241,7 @@ class JsonLdProcessor
 	 * @param stdClass $t1 the first triple.
 	 * @param stdClass $t2 the second triple.
 	 *
-	 * @return true if the triples are the same, false if not.
+	 * @return bool if the triples are the same, false if not.
 	 */
 	protected static function _compareRDFTriples($t1, $t2)
 	{
@@ -4476,12 +4476,12 @@ class JsonLdProcessor
 	/**
 	 * Picks the preferred compaction term from the given inverse context entry.
 	 *
-	 * @param active_ctx the active context.
-	 * @param iri the IRI to pick the term for.
-	 * @param value the value to pick the term for.
-	 * @param containers the preferred containers.
-	 * @param type_or_language either '@type' or '@language'.
-	 * @param type_or_language_value the preferred value for '@type' or
+	 * @param mixed $active_ctx the active context.
+	 * @param mixed $iri the IRI to pick the term for.
+	 * @param mixed $value the value to pick the term for.
+	 * @param mixed $containers the preferred containers.
+	 * @param string $type_or_language either '@type' or '@language'.
+	 * @param string|null $type_or_language_value the preferred value for '@type' or
 	 *          '@language'.
 	 *
 	 * @return mixed the preferred term.
@@ -4549,7 +4549,7 @@ class JsonLdProcessor
 	 * @param stdClass $active_ctx the active context to use.
 	 * @param string $iri the IRI to compact.
 	 * @param mixed $value the value to check or null.
-	 * @param assoc $relative_to options for how to compact IRIs:
+	 * @param array $relative_to options for how to compact IRIs:
 	 *          vocab: true to split after @vocab, false not to.
 	 * @param bool $reverse true if a reverse property is being compacted, false
 	 *          if not.
@@ -4906,7 +4906,7 @@ class JsonLdProcessor
 		if (property_exists($value, '@reverse')) {
 			if (property_exists($value, '@id')) {
 				throw new JsonLdException(
-				'Invalid JSON-LD syntax; a @reverse term definition must not ' +
+				'Invalid JSON-LD syntax; a @reverse term definition must not ' .
 				'contain @id.', 'jsonld.SyntaxError', 'invalid reverse property', ['context' => $local_ctx]);
 			}
 			$reverse = $value->{'@reverse'};
@@ -5024,7 +5024,7 @@ class JsonLdProcessor
 			if ($mapping->reverse && $container !== '@index' &&
 			$container !== '@set' && $container !== null) {
 				throw new JsonLdException(
-				'Invalid JSON-LD syntax; @context @container value for a @reverse ' +
+				'Invalid JSON-LD syntax; @context @container value for a @reverse ' .
 				'type definition must be @index or @set.', 'jsonld.SyntaxError', 'invalid reverse property', ['context' => $local_ctx]);
 			}
 
@@ -5063,12 +5063,12 @@ class JsonLdProcessor
 	 *
 	 * @param stdClass $active_ctx the current active context.
 	 * @param string $value the string to expand.
-	 * @param assoc $relative_to options for how to resolve relative IRIs:
+	 * @param array $relative_to options for how to resolve relative IRIs:
 	 *          base: true to resolve against the base IRI, false not to.
 	 *          vocab: true to concatenate after @vocab, false not to.
 	 * @param stdClass $local_ctx the local context being processed (only given
 	 *          if called during document processing).
-	 * @param defined a map for tracking cycles in context definitions (only given
+	 * @param array|stdClass|null $defined a map for tracking cycles in context definitions (only given
 	 *          if called during document processing).
 	 *
 	 * @return mixed the expanded value.
@@ -5214,9 +5214,7 @@ class JsonLdProcessor
 	 * @param mixed $input the JSON-LD input with possible contexts.
 	 * @param stdClass $cycles an object for tracking context cycles.
 	 * @param callable $load_document(url) the document loader.
-	 * @param base $base the base URL to resolve relative URLs against.
-	 *
-	 * @return mixed the result.
+	 * @param string $base the base URL to resolve relative URLs against.
 	 */
 	protected function _retrieveContextUrls(
 	&$input, $cycles, $load_document, $base = '')
@@ -5303,7 +5301,7 @@ class JsonLdProcessor
 	/**
 	 * Gets the initial context.
 	 *
-	 * @param assoc $options the options to use.
+	 * @param array $options the options to use.
 	 *          base the document base IRI.
 	 *
 	 * @return stdClass the initial context.
@@ -5700,7 +5698,7 @@ class JsonLdProcessor
 	 * value equals is the given value.
 	 *
 	 * @param stdClass $target the target object.
-	 * @param string key the key to check.
+	 * @param string $key the key to check.
 	 * @param mixed $value the value to check.
 	 *
 	 * @return bool true if the target has the given key and its value matches.
@@ -5716,7 +5714,7 @@ class JsonLdProcessor
 	 *
 	 * @param stdClass $o1 the first object.
 	 * @param stdClass $o2 the second object.
-	 * @param string key the key to check.
+	 * @param string $key the key to check.
 	 *
 	 * @return bool true if both objects have the same value for the key or
 	 *   neither has the key.
@@ -5777,6 +5775,12 @@ jsonld_register_rdf_parser(
  */
 class JsonLdException extends Exception
 {
+	/** @var mixed */
+	protected $type;
+	/** @var mixed|null */
+	protected $details;
+	/** @var mixed|null */
+	protected $cause;
 
 	public function __construct(
 	$msg, $type, $code = 'error', $details = null, $previous = null)
@@ -5814,11 +5818,19 @@ class JsonLdException extends Exception
  */
 class UniqueNamer
 {
+	/** @var string */
+	private $prefix;
+	/** @var int */
+	private $counter;
+	/** @var stdClass */
+	private $existing;
+	/** @var array */
+	private $order;
 
 	/**
 	 * Constructs a new UniqueNamer.
 	 *
-	 * @param prefix the prefix to use ('<prefix><counter>').
+	 * @param string $prefix the prefix to use ('<prefix><counter>').
 	 */
 	public function __construct($prefix)
 	{
@@ -5840,7 +5852,7 @@ class UniqueNamer
 	 * Gets the new name for the given old name, where if no old name is given
 	 * a new name will be generated.
 	 *
-	 * @param mixed [$old_name] the old name to get the new name for.
+	 * @param mixed|null $old_name the old name to get the new name for.
 	 *
 	 * @return string the new name.
 	 */
@@ -5884,6 +5896,12 @@ class UniqueNamer
  */
 class Permutator
 {
+	/** @var array */
+	protected $list;
+	/** @var bool */
+	protected $done;
+	/** @var stdClass */
+	protected $left;
 
 	/**
 	 * Constructs a new Permutator.
@@ -5972,10 +5990,17 @@ class Permutator
  */
 class ActiveContextCache
 {
+	/** @var array */
+	protected $order;
+	/** @var stdClass */
+	protected $cache;
+	/** @var int */
+	protected $size;
+
 	/**
 	 * Constructs a new ActiveContextCache.
 	 *
-	 * @param int size the maximum size of the cache, defaults to 100.
+	 * @param int $size the maximum size of the cache, defaults to 100.
 	 */
 	public function __construct($size = 100)
 	{
