@@ -5825,7 +5825,7 @@ class UniqueNamer
 	/** @var stdClass */
 	private $existing;
 	/** @var array */
-	private $order;
+	public $order;
 
 	/**
 	 * Constructs a new UniqueNamer.
