@@ -388,7 +388,15 @@ function jsonld_default_document_loader($url)
 	}
 
 	$link_header = [];
-	foreach ($http_response_header ?? [] as $header) {
+	$response_headers = [];
+
+	if (PHP_VERSION_ID >= 80400) {
+		$response_headers = (array) http_get_last_response_headers();
+	} elseif (isset($http_response_header) && is_array($http_response_header)) {
+		$response_headers = $http_response_header;
+	}
+
+	foreach ($response_headers as $header) {
 		if (strpos($header, 'link') === 0) {
 			$value = explode(': ', $header);
 			if (count($value) > 1) {
@@ -478,7 +486,15 @@ function jsonld_default_secure_document_loader($url)
 	}
 
 	$link_header = [];
-	foreach ($http_response_header as $header) {
+	$response_headers = [];
+
+	if (PHP_VERSION_ID >= 80400) {
+		$response_headers = (array) http_get_last_response_headers();
+	} elseif (isset($http_response_header) && is_array($http_response_header)) {
+		$response_headers = $http_response_header;
+	}
+
+	foreach ($response_headers as $header) {
 		if (strpos($header, 'link') === 0) {
 			$value = explode(': ', $header);
 			if (count($value) > 1) {
