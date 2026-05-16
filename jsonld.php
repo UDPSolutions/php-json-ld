@@ -388,16 +388,13 @@ function jsonld_default_document_loader($url)
 	}
 
 	$link_header = [];
-	$response_headers = [];
 
 	// http_get_last_response_headers() exists since PHP 8.4
 	if (function_exists('http_get_last_response_headers')) {
-		$response_headers = (array) http_get_last_response_headers();
-	} else {
-		$response_headers = isset($http_response_header) ? (array) $http_response_header : [];
+		$http_response_header = (array) http_get_last_response_headers();
 	}
 
-	foreach ($response_headers as $header) {
+	foreach ($http_response_header as $header) {
 		if (strpos($header, 'link') === 0) {
 			$value = explode(': ', $header);
 			if (count($value) > 1) {
@@ -487,16 +484,13 @@ function jsonld_default_secure_document_loader($url)
 	}
 
 	$link_header = [];
-	$response_headers = [];
 
 	// http_get_last_response_headers() exists since PHP 8.4
 	if (function_exists('http_get_last_response_headers')) {
-		$response_headers = (array) http_get_last_response_headers();
-	} else {
-		$response_headers = isset($http_response_header) ? (array) $http_response_header : [];
+		$http_response_header = (array) http_get_last_response_headers();
 	}
 
-	foreach ($response_headers as $header) {
+	foreach ($http_response_header as $header) {
 		if (strpos($header, 'link') === 0) {
 			$value = explode(': ', $header);
 			if (count($value) > 1) {
